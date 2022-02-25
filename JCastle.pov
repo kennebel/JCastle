@@ -62,10 +62,17 @@ box {
 }
 object {
    Turret
-   translate <1, 0, -1> // <x, y, z>
+   translate <1.25, 0, -1> // <x, y, z>
 }
 
 object {
    Turret
-   translate <-1, 0, -1> // <x, y, z>
+   translate <-1.25, 0, -1> // <x, y, z>
+}
+
+sphere {
+   <-1, 5, 1>, 1 // <x, y, z>, radius
+   texture {
+      pigment { color Yellow }
+   }
 }
