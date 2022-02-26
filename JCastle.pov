@@ -13,29 +13,26 @@ light_source { <-50.0, 100, -80.0> colour White }
 light_source { <250.0, 25.0, -100.0> colour DimGray }
 
 
-camera {
-   location <5.0, 5.0, -15.0>
+camera { // Wide Angle
+   location <6.0, 5.0, -13.0>
    angle 65 
    right     x*image_width/image_height
    look_at <0, 0, 0>
 }
+/*camera { // Gate View
+   location <2.0, 2.0, -4.0>
+   angle 65 
+   right     x*image_width/image_height
+   look_at <0, 0.5, 0>
+}*/
+
 background { color Blue }
 
 plane {
    y, 0 // perpendicular to axis, offset
    texture {
       pigment { 
-         color Green
-      }
-   }
-}
-
-box {
-   <-1, 0, -1>, <1, 2, 1> // <x, y, z> near lower left corner, <x, y, z> far upper right corner
-   texture {
-      
-      pigment { 
-         color <1.0, 1.0, 1.0, 0.0, 0.0> // <red, green, blue, filter, transmit>
+         color <0.184314, 0.7, 0.184314>
       }
    }
 }
@@ -60,19 +57,49 @@ box {
       }
    }
 }
-object {
-   Turret
-   translate <1.25, 0, -1> // <x, y, z>
-}
 
-object {
-   Turret
-   translate <-1.25, 0, -1> // <x, y, z>
-}
-
-sphere {
-   <-1, 5, 1>, 1 // <x, y, z>, radius
-   texture {
-      pigment { color Yellow }
+#declare JCastle = union {
+   box {
+      <-1, 0, -1>, <1, 2, 1> // <x, y, z> near lower left corner, <x, y, z> far upper right corner
+      texture {
+         pigment { color White }
+      }
    }
+
+   object {
+      Turret
+      translate <1.25, 0, -1> // <x, y, z>
+   }
+
+   object {
+      Turret
+      translate <-1.25, 0, -1> // <x, y, z>
+   }
+
+   sphere {
+      <-1, 5, 1>, 1 // <x, y, z>, radius
+      texture {
+         pigment { color Yellow }
+      }
+   }
+}
+
+object {
+   JCastle
+   translate <0, 0.5, 0>
+}
+
+sphere { // Hill
+   <0,0,0>, 3
+   texture {
+      pigment { color Green }
+   }
+   scale <1.0, 0.25, 1.0> // <x, y, z>
+}
+
+cylinder { // Moat
+   <0, -0.5, 0>, <0, 0.1, 0>, 3.5 // center of one end, center of other end, radius
+   texture {
+      pigment { color Blue }
+   }   
 }
