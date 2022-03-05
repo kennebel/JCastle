@@ -5,6 +5,7 @@ global_settings { assumed_gamma 2.2 }
 #include "colors.inc"
 #include "textures.inc"
 #include "rand.inc"
+#include "stones2.inc"
 
 
 // Main light source
@@ -14,18 +15,25 @@ light_source { <-50.0, 100, -80.0> colour White }
 light_source { <250.0, 25.0, -100.0> colour DimGray }
 
 
-camera { // Wide Angle
+#declare CamScene = camera { // Wide Angle
    location <6.0, 5.0, -13.0>
    angle 65 
    right     x*image_width/image_height
    look_at <0, 0, 0>
 }
-/*camera { // Gate View
+#declare CamFrontGate = camera { // Gate View
    location <2.0, 2.0, -4.0>
    angle 65 
    right     x*image_width/image_height
    look_at <0, 0.5, 0>
-}*/
+}
+#declare CamBridge = camera { // Gate View
+   location <2.0, 2.0, -4.0>
+   angle 65 
+   right     x*image_width/image_height
+   look_at <0, 0.5, -3.5>
+}
+camera { CamScene }
 
 background { color Blue }
 
@@ -41,19 +49,14 @@ plane {
 #declare Turret = union {
    cylinder {
       <0, 0, 0>, <0, 2.25, 0>, 0.5 // center of one end, center of other end, radius
-      texture {
-         
-         pigment { 
-            color <1.0, 1.0, 1.0, 0.0, 0.0> // <red, green, blue, filter, transmit>
-         }
-      }
+      texture { T_Stone32 }
    }
    cone {
       <0, 2.25, 0>, 0.75 // <x, y, z>, center & radius of one end
       <0, 3, 0>, 0 // <x, y, z>, center & radius of the other end
       texture {
          pigment { 
-            color Red
+            color Firebrick
          }
       }
    }
@@ -62,9 +65,7 @@ plane {
 #declare JCastle = union {
    box {
       <-1, 0, -1>, <1, 2, 1> // <x, y, z> near lower left corner, <x, y, z> far upper right corner
-      texture {
-         pigment { color White }
-      }
+      texture { T_Stone32 }
    }
 
    object {
@@ -77,12 +78,12 @@ plane {
       translate <-1.25, 0, -1> // <x, y, z>
    }
 
-   sphere {
+   /*sphere {
       <-1, 5, 1>, 1 // <x, y, z>, radius
       texture {
          pigment { color Yellow }
       }
-   }
+   }*/
 }
 object {
    JCastle
@@ -165,9 +166,34 @@ object { Hill }
    #declare n = n + 1;
 #end
 
-box {
-   <-0.5, 0, -3.5>, <0.5, 0.1, -20> // <x, y, z> near lower left corner, <x, y, z> far upper right corner
-   texture {
-      pigment { color White }
+box { // Path
+   <-0.5, 0, -3.75>, <0.5, 0.1, -20> // <x, y, z> near lower left corner, <x, y, z> far upper right corner
+   texture { T_Stone32 }
+}
+
+// Clouds
+#declare Cloud = merge {
+   sphere {
+      <0, 0, 0>, 1 // <x, y, z>, radius
+      texture {
+         pigment { 
+            color rgbf <1,1,1,0.35>
+         }
+      }
+      scale <1,0.85,1>
    }
+   sphere {
+      <0, 0, 0>, 1 // <x, y, z>, radius
+      texture {
+         pigment { 
+            color rgbf <1,1,1,0.35>
+         }
+      }
+      scale <0.75,1,0.65>
+      translate <-0.7, 0.2, 0> // <x, y, z>
+   }
+}
+object {
+   Cloud
+   translate <0, 5, 0> // <x, y, z>
 }
